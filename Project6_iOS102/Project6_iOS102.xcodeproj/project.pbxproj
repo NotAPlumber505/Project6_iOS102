@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A566CE62EA4A508008D1259 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 7A566CE52EA4A508008D1259 /* .gitignore */; };
 		7A86AC732EA479D300923BBF /* Project6_iOS102App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A86AC722EA479D300923BBF /* Project6_iOS102App.swift */; };
 		7A86AC752EA479D300923BBF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A86AC742EA479D300923BBF /* ContentView.swift */; };
 		7A86AC772EA479D400923BBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A86AC762EA479D400923BBF /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7A566CE52EA4A508008D1259 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		7A86AC6F2EA479D300923BBF /* Project6_iOS102.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project6_iOS102.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A86AC722EA479D300923BBF /* Project6_iOS102App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project6_iOS102App.swift; sourceTree = "<group>"; };
 		7A86AC742EA479D300923BBF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,6 +55,7 @@
 		7A86AC662EA479D300923BBF = {
 			isa = PBXGroup;
 			children = (
+				7A566CE52EA4A508008D1259 /* .gitignore */,
 				7A86AC8D2EA480A300923BBF /* GoogleService-Info.plist */,
 				7A86AC712EA479D300923BBF /* Project6_iOS102 */,
 				7A86AC702EA479D300923BBF /* Products */,
@@ -165,6 +168,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A566CE62EA4A508008D1259 /* .gitignore in Resources */,
 				7A86AC7A2EA479D400923BBF /* Preview Assets.xcassets in Resources */,
 				7A86AC772EA479D400923BBF /* Assets.xcassets in Resources */,
 				7A86AC8E2EA480A300923BBF /* GoogleService-Info.plist in Resources */,
