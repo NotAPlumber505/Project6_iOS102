@@ -30,7 +30,7 @@ Here's a walkthrough of implemented user stories:
 
 [Project 6 iOS102 Full Video Demo]]([https://www.youtube.com/watch?v=GA92eKlYio4](https://youtube.com/shorts/ddzdWMgBLLQ))
 
-<iframe src="https://klipy.com/gifs/project-6-ios102-demo/player" width="526" height="1080" title="Project 6 iOS102 Demo" frameborder="0" allowfullscreen loading="lazy"></iframe>
+<img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWxoenpmZG5nejEycnFibno2Y3JxeDF4d2VzaTZkcWphdjNxajR2dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9nilZ4D4Ou1DrzK5Lz/giphy.gif" width="auto" height="auto" />
 
 ## Notes
 
