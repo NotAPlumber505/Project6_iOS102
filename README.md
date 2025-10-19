@@ -30,7 +30,7 @@ Here's a walkthrough of implemented user stories:
 
 [Project 6 iOS102 Full Video Demo]]([https://www.youtube.com/watch?v=GA92eKlYio4](https://youtube.com/shorts/ddzdWMgBLLQ))
 
-<img src="https://i.gifer.com/3P04A.gif" width="auto" height="auto" />
+<img src="https://i.gifer.com/3P04A.gif" width="100" height="100" />
 
 ## Notes
 
