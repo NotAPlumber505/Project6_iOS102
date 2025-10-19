@@ -8,10 +8,13 @@
 import SwiftUI
 
 @main
-struct Project6_iOS102App: App {
+struct BonMotApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
     }
 }
+
