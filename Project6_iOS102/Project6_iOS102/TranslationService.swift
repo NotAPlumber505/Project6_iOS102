@@ -16,7 +16,7 @@ class TranslationService {
         ]
 
         guard let url = components.url else {
-            print("❌ Invalid URL generated from components")
+            print("❌ Invalid URL")
             completion(nil)
             return
         }
@@ -31,7 +31,7 @@ class TranslationService {
             }
 
             guard let data = data else {
-                print("❌ No data received from API.")
+                print("❌ No data received")
                 completion(nil)
                 return
             }
@@ -43,15 +43,14 @@ class TranslationService {
                     print("✅ Translated text: \(translatedText)")
                     completion(translatedText)
                 } else {
-                    print("❌ Unexpected JSON structure.")
+                    print("❌ JSON parse error")
                     completion(nil)
                 }
             } catch {
-                print("❌ JSON parse error: \(error.localizedDescription)")
+                print("❌ JSON decoding failed: \(error)")
                 completion(nil)
             }
         }.resume()
     }
 }
-
 

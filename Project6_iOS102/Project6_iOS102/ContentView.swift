@@ -8,75 +8,179 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var inputText = ""
-    @State private var translatedText = ""
-    @ObservedObject private var historyVM = HistoryViewModel()
-    private let translator = TranslationService()
+    @State private var inputText: String = ""
+    @State private var translatedText: String = ""
+    @State private var sourceLang = "en"
+    @State private var targetLang = "fr"
 
+    @StateObject private var historyVM = HistoryViewModel()
+    @StateObject private var typewriter = TypewriterText()
+    private let translationService = TranslationService()
+
+    let languages = [
+        "en": "English 🇺🇸",
+        "fr": "French 🇫🇷",
+        "es": "Spanish 🇪🇸",
+        "de": "German 🇩🇪",
+        "it": "Italian 🇮🇹"
+    ]
+    
     var body: some View {
-        NavigationView {
-            VStack(spacing: 20) {
-                Text("🇫🇷 BonMot!").font(.largeTitle).bold()
+        ZStack {
+            // Background - Layer 0
+            Image("eiffel")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .ignoresSafeArea()
+                .blur(radius: 12)
+                .allowsHitTesting(false)
 
-                TextField("Enter text to translate", text: $inputText)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
+            // Content - Layer 1
+            ScrollView {
+                VStack(spacing: 20) {
+                    Text("BonMot 🇫🇷")
+                        .font(.system(size: 36, weight: .bold, design: .rounded))
+                        .foregroundColor(.black)
+                        .padding(.top)
 
-                Button("✨ Translate") {
-                    translateText()
-                }
-                .padding()
-                .background(Color.blue.opacity(0.8))
-                .foregroundColor(.white)
-                .cornerRadius(10)
+                    // Language pickers
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Select Languages")
+                            .font(.headline)
+                            .foregroundColor(.black)
 
-                Text(translatedText)
-                    .font(.title2)
-                    .padding()
+                        VStack {
+                            HStack {
+                                Text("From:")
+                                    .foregroundColor(.black)
 
-                Divider().padding()
+                                Picker("Source Language", selection: $sourceLang) {
+                                    ForEach(languages.keys.sorted(), id: \.self) { code in
+                                        Text(languages[code]!).tag(code)
+                                    }
+                                }
+                                .pickerStyle(WheelPickerStyle())
+                                .frame(height: 100)
+                                .clipped()
+                            }
 
-                HStack {
-                    Text("🕘 Translation History").bold()
-                    Spacer()
-                    Button("🗑 Clear") {
-                        historyVM.deleteHistory()
-                    }
-                }.padding([.leading, .trailing])
+                            HStack {
+                                Text("To:")
+                                    .foregroundColor(.black)
 
-                ScrollView {
-                    ForEach(historyVM.history) { item in
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("📝 \(item.originalText)")
-                                .font(.subheadline)
-                            Text("➡️ \(item.translatedText)")
-                                .font(.body)
+                                Picker("Target Language", selection: $targetLang) {
+                                    ForEach(languages.keys.sorted(), id: \.self) { code in
+                                        Text(languages[code]!).tag(code)
+                                    }
+                                }
+                                .pickerStyle(WheelPickerStyle())
+                                .frame(height: 100)
+                                .clipped()
+                            }
                         }
-                        .padding()
-                        .background(Color(.secondarySystemBackground))
-                        .cornerRadius(8)
+                        .background(Color.white)
+                        .cornerRadius(10)
                         .padding(.horizontal)
                     }
-                }
+                    
+                    // ✅ TEXT FIELD GOES HERE - same level as other content
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Enter Text")
+                            .font(.headline)
+                            .foregroundColor(.black)
+                        
+                        TextField("Enter text to translate", text: $inputText)
+                            .padding()
+                            .background(Color.white)
+                            .foregroundColor(.black)
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                            )
+                    }
+                    .padding(.horizontal)
 
-                Spacer()
+                    // Translate button
+                    Button(action: translateText) {
+                        Text("Translate")
+                            .bold()
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding(.horizontal)
+
+                    // Output
+                    VStack(alignment: .leading) {
+                        Text("Translated Text")
+                            .foregroundColor(.black)
+                        Text(typewriter.displayedText.isEmpty ? "Translation will appear here..." : typewriter.displayedText)
+                            .font(.title2)
+                            .foregroundColor(.black)
+                            .multilineTextAlignment(.leading)
+                            .padding()
+                            .background(Color.white.opacity(0.9))
+                            .cornerRadius(10)
+                    }
+                    .padding(.horizontal)
+
+                    Divider()
+
+                    // History
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Translation History")
+                            .font(.headline)
+                            .foregroundColor(.black)
+
+                        ForEach(historyVM.translations.sorted(by: { $0.timestamp > $1.timestamp })) { item in
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("🗣️ \(item.originalText)")
+                                    .foregroundColor(.black)
+                                Text("🔁 \(item.translatedText)")
+                                    .foregroundColor(.gray)
+                            }
+                            .padding()
+                            .background(Color.white.opacity(0.9))
+                            .cornerRadius(10)
+                        }
+                    }
+                    .padding(.horizontal)
+
+                    // Clear history
+                    Button("Clear History") {
+                        historyVM.clearHistory()
+                    }
+                    .foregroundColor(.red)
+                    .padding(.bottom, 40)
+                }
             }
-            .padding()
+        }
+        .onAppear {
+            historyVM.loadHistory()
         }
     }
 
-    private func translateText() {
-        translator.translate(text: inputText) { result in
+    func translateText() {
+        translationService.translate(text: inputText, from: sourceLang, to: targetLang) { result in
             DispatchQueue.main.async {
-                if let result = result {
-                    self.translatedText = result
-                    let newTranslation = Translation(originalText: inputText, translatedText: result, timestamp: Date())
-                    self.historyVM.saveTranslation(newTranslation)
+                if let translated = result {
+                    translatedText = translated
+                    typewriter.animateText(translated)
+
+                    let newTranslation = Translation(
+                        originalText: inputText,
+                        translatedText: translated,
+                        timestamp: Date()
+                    )
+                    historyVM.addTranslation(newTranslation)
                 } else {
-                    self.translatedText = "❌ Translation failed"
+                    typewriter.displayedText = "Translation failed"
                 }
             }
         }
     }
 }
-

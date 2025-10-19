@@ -10,36 +10,35 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 class HistoryViewModel: ObservableObject {
-    @Published var history: [Translation] = []
-    private let db = Firestore.firestore()
-    private let collection = "translations"
+    @Published var translations: [Translation] = []
 
-    init() {
-        fetchHistory()
-    }
+    private var db = Firestore.firestore()
 
-    func fetchHistory() {
-        db.collection(collection)
-            .order(by: "timestamp", descending: true)
-            .addSnapshotListener { snapshot, error in
-                guard let documents = snapshot?.documents else { return }
-                self.history = documents.compactMap {
-                    try? $0.data(as: Translation.self)
+    func loadHistory() {
+        db.collection("translations").order(by: "timestamp", descending: true).addSnapshotListener { snapshot, error in
+            if let snapshot = snapshot {
+                self.translations = snapshot.documents.compactMap { doc in
+                    try? doc.data(as: Translation.self)
                 }
             }
-    }
-
-    func saveTranslation(_ translation: Translation) {
-        do {
-            _ = try db.collection(collection).document(translation.id).setData(from: translation)
-        } catch {
-            print("❌ Error saving translation: \(error.localizedDescription)")
         }
     }
 
-    func deleteHistory() {
-        for item in history {
-            db.collection(collection).document(item.id).delete()
+    func addTranslation(_ translation: Translation) {
+        do {
+            _ = try db.collection("translations").addDocument(from: translation)
+        } catch {
+            print("❌ Error adding translation: \(error.localizedDescription)")
+        }
+    }
+
+    func clearHistory() {
+        db.collection("translations").getDocuments { snapshot, error in
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    document.reference.delete()
+                }
+            }
         }
     }
 }
