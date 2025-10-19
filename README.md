@@ -4,7 +4,7 @@ Submitted by: **Mario I. Casas**
 
 **BonMot** is an app that ... [allows you to view and see your translations persist across a variety of different langauges (i.e., German, Spanish, Italian, French, English] 
 
-Time spent: **X** hours spent in total
+Time spent: **4** hours spent in total
 
 ## Required Features
 
@@ -30,7 +30,7 @@ Here's a walkthrough of implemented user stories:
 
 [Project 6 iOS102 Full Video Demo]]([https://www.youtube.com/watch?v=GA92eKlYio4](https://youtube.com/shorts/ddzdWMgBLLQ))
 
-<img src="https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif" width="auto" height="auto" />
+<img src="https://i.gifer.com/3P04A.gif" width="auto" height="auto" />
 
 ## Notes
 
